@@ -1,11 +1,11 @@
 load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library")
 
 qt_cc_library(
-    name = "task_1_lib",
+    name = "task_2_lib",
     srcs = [
-        "task_1/main_window.cpp",
+        "text_editor.cpp",
     ],
-    hdrs = ["task_1/main_window.h", "task_1/ticket.h"],
+    hdrs = ["text_editor.h"],
     deps = [
         "@rules_qt//:qt_core",
         "@rules_qt//:qt_gui",
@@ -14,10 +14,10 @@ qt_cc_library(
 )
 
 qt_cc_binary(
-    name = "basics",
-    srcs = ["task_1/main.cpp"],
+    name = "task_2",
+    srcs = ["main.cpp"],
     deps = [
-        ":task_1_lib",
+        ":task_2_lib",
         "@rules_qt//:qt_core",
         "@rules_qt//:qt_widgets",
     ],
