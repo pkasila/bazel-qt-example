@@ -41,7 +41,7 @@ ExpenceAddWindow::ExpenceAddWindow(QWidget *parent) : QDialog(parent) {
     addSumSpinBox_->setSuffix(" BYN");
 
     addCategoryComboBox_ = new QComboBox(this);
-    addCategoryComboBox_->addItems({"Не задано", "Продукты", "Жильё и коммуналка", "Транспорт", "Развлечения"});
+    addCategoryComboBox_->addItems({"Не задано", "Продукты", "Жильё", "Транспорт", "Развлечения"});
 
     addDateEdit_ = new QDateEdit(this);
     addDateEdit_->setDate(QDate::currentDate());
@@ -95,7 +95,7 @@ ExpenceChangeWindow::ExpenceChangeWindow(QWidget *parent)
     changeSumSpinBox_->setSuffix(" BYN");
 
     changeCategoryComboBox_ = new QComboBox(this);
-    changeCategoryComboBox_->addItems({"Не задано", "Продукты", "Жильё и коммуналка", "Транспорт", "Развлечения"});
+    changeCategoryComboBox_->addItems({"Не задано", "Продукты", "Жильё", "Транспорт", "Развлечения"});
 
     changeDateEdit_ = new QDateEdit(this);
     changeDateEdit_->setDate(QDate::currentDate());
@@ -178,7 +178,7 @@ ExpenceApp::ExpenceApp(QWidget *parent)
     chooseSortComboBox_ = new QComboBox(this);
     chooseSortComboBox_->addItems({
         "Не сортировано", "По возрастанию даты", "По убыванию даты", "По возрастанию суммы", "По убыванию суммы",
-        "Не задано", "Продукты", "Жильё и коммуналка", "Транспорт", "Развлечения"
+        "Не задано", "Продукты", "Жильё", "Транспорт", "Развлечения"
     });
 
     sortGroupBox_ = new QGroupBox(this);
@@ -242,7 +242,7 @@ void ExpenceApp::onAddClicked() {
         QColor rowColor;
         if (category == "Продукты") {
             rowColor = QColor(144, 238, 144); // Светло-зеленый
-        } else if (category == "Жильё и коммуналка") {
+        } else if (category == "Жильё") {
             rowColor = QColor(173, 216, 230); // Светло-голубой
         } else if (category == "Транспорт") {
             rowColor = QColor(255, 223, 0); // Золотой
@@ -300,7 +300,7 @@ void ExpenceApp::changeExpence() {
     if (currentCategory == "Продукты") {
         categoryIndex = 1;
     }
-    if (currentCategory == "Жильё и коммуналка") {
+    if (currentCategory == "Жильё") {
         categoryIndex = 2;
     }
     if (currentCategory == "Транспорт") {
@@ -341,7 +341,7 @@ void ExpenceApp::changeExpence() {
         QColor rowColor;
         if (newCategory == "Продукты") {
             rowColor = QColor(144, 238, 144); // Светло-зеленый
-        } else if (newCategory == "Жильё и коммуналка") {
+        } else if (newCategory == "Жильё") {
             rowColor = QColor(173, 216, 230); // Светло-голубой
         } else if (newCategory == "Транспорт") {
             rowColor = QColor(255, 223, 0); // Золотой
@@ -390,7 +390,7 @@ void ExpenceApp::sort() {
             QMap<QString, int> priority = {
                 {"Не задано", 0},
                 {"Продукты", 1},
-                {"Жильё и коммуналка", 2},
+                {"Жильё", 2},
                 {"Транспорт", 3},
                 {"Развлечения", 4}
             };
@@ -403,7 +403,7 @@ void ExpenceApp::sort() {
             QString categoryB = b[1]->text();
             QMap<QString, int> priority = {
                 {"Продукты", 0},
-                {"Жильё и коммуналка", 1},
+                {"Жильё", 1},
                 {"Транспорт", 2},
                 {"Развлечения", 3},
                 {"Не задано", 4}
@@ -411,12 +411,12 @@ void ExpenceApp::sort() {
             return priority[categoryA] < priority[categoryB];
         });
     }
-    if (sortType == "Жильё и коммуналка") {
+    if (sortType == "Жильё") {
         std::sort(rows.begin(), rows.end(), [](const QList<QTableWidgetItem *> &a, const QList<QTableWidgetItem *> &b) {
             QString categoryA = a[1]->text();
             QString categoryB = b[1]->text();
             QMap<QString, int> priority = {
-                {"Жильё и коммуналка", 0},
+                {"Жильё", 0},
                 {"Продукты", 1},
                 {"Транспорт", 2},
                 {"Развлечения", 3},
@@ -432,7 +432,7 @@ void ExpenceApp::sort() {
             QMap<QString, int> priority = {
                 {"Транспорт", 0},
                 {"Продукты", 1},
-                {"Жильё и коммуналка", 2},
+                {"Жильё", 2},
                 {"Развлечения", 3},
                 {"Не задано", 4}
             };
@@ -446,7 +446,7 @@ void ExpenceApp::sort() {
             QMap<QString, int> priority = {
                 {"Развлечения", 0},
                 {"Продукты", 1},
-                {"Жильё и коммуналка", 2},
+                {"Жильё", 2},
                 {"Транспорт", 3},
                 {"Не задано", 4}
             };
