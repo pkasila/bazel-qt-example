@@ -21,6 +21,7 @@
 #include <QtWidgets/QVBoxLayout>
 
 #include <algorithm>
+#include <cassert>
 #include <ranges>
 #include <utility>
 
@@ -34,6 +35,11 @@ QIcon source_icon(const QString &str)
         theme = "dark";
     }
     return QIcon(QString(":/resources/%1/%2.svg").arg(theme, str));
+}
+
+void Flag::rotate_backward()
+{
+    state = (state + 2) % 3;
 }
 
 void Flag::rotate()
@@ -62,14 +68,10 @@ QIcon Flag::icon() const
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    clickItem = nullptr;
     clickItemId = -1;
     this->setObjectName("Questionnaire 99");
     this->resize(800, 600);
     this->setMouseTracking(false);
-
-    clickTimer = new QTimer(this);
-    connect(clickTimer, &QTimer::timeout, this, &MainWindow::rotate_flag);
 
     auto *centralwidget = new QWidget(this);
     centralwidget->setObjectName("centralwidget");
@@ -192,6 +194,7 @@ void MainWindow::on_spinBox_valueChanged(int val)
             add_question(i);
         }
     }
+    clickItemId = -1;
     update_progress_bar();
 }
 void MainWindow::add_question(int id, QString desc)
@@ -350,23 +353,24 @@ void MainWindow::on_nextButton_clicked()
 
 void MainWindow::on_listView_itemDoubleClicked()
 {
-    auto recent = clickTimer->isActive();
-    clickTimer->stop();
-
-    if (!recent) {
-        clickTimer->start(200);
-        return;
-    }
-
     auto item_id = listView->currentIndex().row();
+    auto *item = listView->item(item_id);
+    auto &q = questions[item_id];
+
+    if (item_id == clickItemId) {
+        auto &flag = q.flag;
+        flag.rotate_backward();
+        item->setIcon(flag.icon());
+        update_progress_bar();
+    }
+    clickItemId = -1;
+
     Dialog dialog(this, item_id);
     if (dialog.exec() == QDialog::Accepted) {
-        auto &q = questions[item_id];
         q.name = dialog.lineEdit->text();
         q.desc = dialog.textEdit->toPlainText();
         q.flag = dialog.flag;
 
-        auto *item = listView->item(item_id);
         item->setText(q.name);
         item->setIcon(q.flag.icon());
         update_progress_bar();
@@ -379,13 +383,15 @@ void MainWindow::on_listView_itemDoubleClicked()
 
 void MainWindow::on_listView_itemClicked()
 {
-    clickTimer->stop();
     auto item_id = listView->currentIndex().row();
     auto *item = listView->currentItem();
 
+    auto &flag = questions[item_id].flag;
+    flag.rotate();
+    item->setIcon(flag.icon());
+    update_progress_bar();
+
     clickItemId = item_id;
-    clickItem = item;
-    clickTimer->start(200);
 }
 
 void MainWindow::update_progress_bar()
@@ -396,16 +402,4 @@ void MainWindow::update_progress_bar()
     }
     progressBar->setValue(sum);
     progressBar->setMaximum(static_cast<int>(questions.size()));
-}
-
-void MainWindow::rotate_flag()
-{
-    clickTimer->stop();
-    auto item_id = listView->currentIndex().row();
-    auto *item = listView->currentItem();
-
-    auto &flag = questions[item_id].flag;
-    flag.rotate();
-    item->setIcon(flag.icon());
-    update_progress_bar();
 }

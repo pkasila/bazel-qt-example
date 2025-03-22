@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QTimer>
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QListWidget>
@@ -19,6 +18,7 @@ class Flag
 public:
     enum State { Default, Green, Yellow };
     void rotate();
+    void rotate_backward();
     [[nodiscard]] QIcon icon() const;
     int state = Default;
 };
@@ -44,7 +44,6 @@ private slots:
     void on_listView_itemClicked();
     void on_listView_itemDoubleClicked();
     void update_progress_bar();
-    void rotate_flag();
     void add_question(int id, QString desc = "");
     void shuffle_remaining();
 
@@ -57,8 +56,6 @@ public:
     QList<Question> questions;
     QList<int> issued;
     QList<int> remaining;
-    QListWidgetItem *clickItem;
-    QTimer *clickTimer;
     int clickItemId;
     std::optional<int> lastShownItemId;
 };
