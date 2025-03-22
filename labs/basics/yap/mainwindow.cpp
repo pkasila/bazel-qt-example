@@ -32,6 +32,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 
@@ -103,18 +104,29 @@ public:
 
     void wheelEvent(QWheelEvent *event) override
     {
-        double scale = event->angleDelta().y();
+        event->accept();
+
+        double scale = 0;
+        if (!event->pixelDelta().isNull()) {
+            // Likely a touchpad
+            scale = event->pixelDelta().y();
+            scale /= 50.0;
+        } else if (!event->angleDelta().isNull()) {
+            // Likely a mouse
+            scale = event->angleDelta().y();
+            scale /= 240.0;
+        } else {
+            return;
+        }
         if (scale == 0) {
             return;
         }
 
-        if (fabs(scale) < 15) {
-            scale = scale / abs(scale) * 90;
-        }
-
-        scale *= 1.5 / 120;
-        if (scale < 0.0) {
-            scale = -(1 / scale);
+        scale = std::clamp(scale, -1.0, 1.0);
+        if (scale >= 0.0) {
+            scale += 1.0;
+        } else {
+            scale = 1 / (1 + std::abs(scale));
         }
 
         auto new_scale = this->transform().m11() * scale;
