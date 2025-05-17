@@ -1,0 +1,55 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library", "qt_resource_via_qrc")
+
+qt_resource_via_qrc(
+    name = "resources",
+    files = [
+        "pass.mp3",
+        "TralaleroTralala.mp3",
+        "fail.mp3",
+    ],
+    qrc_file = "resources.qrc"
+)
+
+qt_cc_library(
+    name = "main_window",
+    srcs = [
+        "MainWindow.cpp",
+        "ExerciseView.cpp",
+        "Exercise.cpp",
+        "TranslationExercise.cpp",
+        "GrammarExercise.cpp",
+        "MainMenu.cpp",
+    ],
+    hdrs = [
+        "MainWindow.h",
+        "ExerciseView.h",
+        "Exercise.h",
+        "TranslationExercise.h",
+        "GrammarExercise.h",
+        "MainMenu.h",
+    ],
+    deps = [
+        ":resources",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_sql",
+        "@rules_qt//:qt_multimedia"
+    ],
+    data = ["mydata.db"]
+)
+
+qt_cc_binary(
+    name="main",
+    srcs = ["main.cpp"],
+    data = ["mydata.db"],
+    deps = [
+        ":main_window",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_sql",
+        "@rules_qt//:qt_multimedia"
+    ],
+    args = ["mydata.db"],
+)
