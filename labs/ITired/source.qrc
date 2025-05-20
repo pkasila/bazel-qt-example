@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/">
+        <file alias="audio/correct_ans.wav">audio/correct_ans.wav</file>
+        <file alias="audio/bad_answer.wav">audio/bad_answer.wav</file>
+        <file alias="audio/level_complete.wav">audio/level_complete.wav</file>
+        <file alias="audio/lives_lost.wav">audio/lives_lost.wav</file>
+        <file alias="audio/click.wav">audio/click.wav</file>
+    </qresource>
+</RCC>
