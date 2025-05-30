@@ -31,11 +31,13 @@ qt_cc_library(
     ],
 )
 
-genrule(
+qt_resource_via_qrc(
     name = "resources",
-    srcs = ["resources.qrc"] + glob(["icons/*.png"]),
-    outs = ["resources.cpp"],
-    cmd = "rcc -name resources $(location resources.qrc) -o $@",
+    files = [
+	"icons/light.png",
+	"icons/polygon.png",
+    ],
+    qrc_file = "resources.qrc",
 )
 
 qt_cc_binary(
