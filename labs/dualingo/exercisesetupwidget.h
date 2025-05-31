@@ -24,4 +24,4 @@ private:
     QPushButton *grammarButton;
 };
 
-#endif // EXERCISESETUPWIDGET_H
+#endif

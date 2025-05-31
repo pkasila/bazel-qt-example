@@ -9,13 +9,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), currentScore(0), mistakesMade(0), tasksCompletedInSet(0), currentTaskIndex(-1),
     currentDifficulty("Medium"), currentExerciseType(ExerciseType::None),
-    // N_tasksPerSet, M_maxMistakes, T_timeLimitSeconds will be set by handleDifficultyChanged
-    m_elapsedSecondsInExercise(0) // Initialize the new member
+    m_elapsedSecondsInExercise(0)
 {
     setWindowTitle("EngliQuest - English Learning");
     setMinimumSize(700, 500);
 
-    // Apply some basic global styling
     this->setStyleSheet(
         "QMainWindow { background-color: #f0f8ff; }"
         "QPushButton { background-color: #6495ED; color: white; border-radius: 5px; padding: 8px; font-size: 11pt; }"
@@ -31,17 +29,14 @@ MainWindow::MainWindow(QWidget *parent)
     ensureTasksCategorized();
 
     createMenus();
-    setupCentralWidget(); // Will contain stackedWidget and status bar
-    // createStatusBar();    // Status bar will be part of the central widget's layout
-
+    setupCentralWidget();
 
     exerciseTimer = new QTimer(this);
     connect(exerciseTimer, &QTimer::timeout, this, &MainWindow::updateTimerDisplay);
 
-    // Initialize with Medium difficulty settings
-    handleDifficultyChanged(currentDifficulty); // Sets N, M, T and updates label
+    handleDifficultyChanged(currentDifficulty);
 
-    resetToSetupScreen(); // Start on the setup screen
+    resetToSetupScreen();
 }
 
 MainWindow::~MainWindow()
@@ -73,22 +68,21 @@ void MainWindow::setupCentralWidget() {
     stackedWidget->addWidget(setupWidget);
     stackedWidget->addWidget(runnerWidget);
 
-    pageLayout->addWidget(stackedWidget, 1); // Give stacked widget more space
+    pageLayout->addWidget(stackedWidget, 1);
 
-    // Status bar items (will be a QWidget with QHBoxLayout)
     QWidget *statusBarWidget = new QWidget(this);
     QHBoxLayout *statusLayout = new QHBoxLayout(statusBarWidget);
     statusBarWidget->setLayout(statusLayout);
-    statusBarWidget->setFixedHeight(40); // Fixed height for status bar area
+    statusBarWidget->setFixedHeight(40);
 
     taskProgressBar = new QProgressBar(this);
-    taskProgressBar->setRange(0, 100); // Will be updated
+    taskProgressBar->setRange(0, 100); 
     taskProgressBar->setValue(0);
 
     scoreLabel = new QLabel("Score: 0", this);
     timerLabel = new QLabel("Time: 00:00", this);
     mistakesLabel = new QLabel("Mistakes: 0/0", this);
-    difficultyLabel = new QLabel("Difficulty: Medium", this); // Initial
+    difficultyLabel = new QLabel("Difficulty: Medium", this); 
 
     statusLayout->addWidget(difficultyLabel, 1, Qt::AlignLeft);
     statusLayout->addStretch(1);
@@ -99,7 +93,7 @@ void MainWindow::setupCentralWidget() {
     statusLayout->addWidget(timerLabel,1);
     statusLayout->addWidget(mistakesLabel,1);
 
-    pageLayout->addWidget(statusBarWidget); // Add status bar below stacked widget
+    pageLayout->addWidget(statusBarWidget); 
     centralPage->setLayout(pageLayout);
     setCentralWidget(centralPage);
 
@@ -108,9 +102,7 @@ void MainWindow::setupCentralWidget() {
     connect(runnerWidget, &ExerciseRunnerWidget::submitClicked, this, &MainWindow::handleSubmitAnswer);
 }
 
-void MainWindow::createStatusBar() {
-    // This is now part of setupCentralWidget to integrate it better into the main layout
-}
+void MainWindow::createStatusBar() {}
 
 
 void MainWindow::showDifficultyDialog() {
@@ -129,16 +121,16 @@ void MainWindow::handleDifficultyChanged(const QString& newDifficulty) {
         M_maxMistakes = 3;
         T_timeLimitSeconds = 120;
     } else if (currentDifficulty == "Medium") {
-        N_tasksPerSet = 7; // Adjusted from 10 for variety with sample data
+        N_tasksPerSet = 7; 
         M_maxMistakes = 2;
         T_timeLimitSeconds = 90;
     } else if (currentDifficulty == "Hard") {
-        N_tasksPerSet = 10; // Adjusted from 15
+        N_tasksPerSet = 10; 
         M_maxMistakes = 1;
         T_timeLimitSeconds = 60;
     }
     qDebug() << "Difficulty set to" << currentDifficulty << "N:" << N_tasksPerSet << "M:" << M_maxMistakes << "T:" << T_timeLimitSeconds;
-    updateStatusDisplay(); // Update mistakes display like "0/M"
+    updateStatusDisplay(); 
 }
 
 
@@ -194,23 +186,23 @@ void MainWindow::beginExercise() {
     mistakesMade = 0;
     tasksCompletedInSet = 0;
     currentTaskIndex = -1;
-    m_elapsedSecondsInExercise = 0; // Crucial: Reset for the new exercise
+    m_elapsedSecondsInExercise = 0; 
 
     taskProgressBar->setRange(0, N_tasksPerSet);
     taskProgressBar->setValue(0);
 
-    updateStatusDisplay(); // Update score, mistakes, progress bar
+    updateStatusDisplay(); 
 
-    // Set initial timer display BEFORE starting the timer
+    
     int initialMinutes = T_timeLimitSeconds / 60;
     int initialSeconds = T_timeLimitSeconds % 60;
     timerLabel->setText(QString("Time: %1:%2")
                             .arg(initialMinutes, 2, 10, QChar('0'))
                             .arg(initialSeconds, 2, 10, QChar('0')));
 
-    exerciseTimer->start(1000); // Tick every second
+    exerciseTimer->start(1000); 
     stackedWidget->setCurrentWidget(runnerWidget);
-    advanceToNextTaskOrEnd(); // Display the first task
+    advanceToNextTaskOrEnd(); 
 }
 
 void MainWindow::displayCurrentTask() {
@@ -224,12 +216,12 @@ void MainWindow::displayCurrentTask() {
 
 void MainWindow::advanceToNextTaskOrEnd() {
     currentTaskIndex++;
-    tasksCompletedInSet++; // This counts how many tasks we've *started* or *attempted*
+    tasksCompletedInSet++; 
 
     if (currentTaskIndex < N_tasksPerSet && currentTaskIndex < currentTasks.size()) {
         displayCurrentTask();
     } else {
-        // All N tasks have been presented
+        
         if (mistakesMade < M_maxMistakes) {
             endExercise(QString("Congratulations! You completed all %1 tasks!").arg(N_tasksPerSet), true);
         } else {
@@ -257,7 +249,7 @@ void MainWindow::handleSubmitAnswer() {
 }
 
 void MainWindow::processAnswer(bool isCorrect) {
-    if (!exerciseActive) return; // Don't process if exercise ended meanwhile
+    if (!exerciseActive) return; 
 
     if (isCorrect) {
         currentScore += 10;
@@ -267,32 +259,32 @@ void MainWindow::processAnswer(bool isCorrect) {
         runnerWidget->showFeedback("Incorrect.", false);
     }
 
-    updateStatusDisplay(); // Update score and mistakes count
+    updateStatusDisplay(); 
 
     if (mistakesMade >= M_maxMistakes) {
         endExercise(QString("Too many mistakes! (%1/%2)").arg(mistakesMade).arg(M_maxMistakes), false);
         return;
     }
 
-    // Move to next task after a short delay to show feedback
+    
     QTimer::singleShot(1200, this, &MainWindow::advanceToNextTaskOrEnd);
 }
 
 
 void MainWindow::updateTimerDisplay() {
     if (!exerciseActive) {
-        // This case should ideally not be reached if timer is stopped when exercise ends.
-        // But as a safeguard, set to full time based on current difficulty.
+        
+        
         int minutes = T_timeLimitSeconds / 60;
         int seconds = T_timeLimitSeconds % 60;
         timerLabel->setText(QString("Time: %1:%2")
                                 .arg(minutes, 2, 10, QChar('0'))
                                 .arg(seconds, 2, 10, QChar('0')));
-        if (exerciseTimer->isActive()) exerciseTimer->stop(); // Stop if spuriously active
+        if (exerciseTimer->isActive()) exerciseTimer->stop(); 
         return;
     }
 
-    m_elapsedSecondsInExercise++; // One second has passed
+    m_elapsedSecondsInExercise++; 
 
     int remainingSeconds = T_timeLimitSeconds - m_elapsedSecondsInExercise;
 
@@ -307,25 +299,25 @@ void MainWindow::updateTimerDisplay() {
                             .arg(seconds, 2, 10, QChar('0')));
 
     if (remainingSeconds <= 0) {
-        if (exerciseTimer->isActive()) { // Stop timer before handling timeout logic
+        if (exerciseTimer->isActive()) { 
             exerciseTimer->stop();
         }
-        handleExerciseTimeout(); // Call the specific timeout handler
+        handleExerciseTimeout(); 
     }
 }
 
 void MainWindow::handleExerciseTimeout() {
-    if (!exerciseActive) return; // Avoid multiple calls if already ended
+    if (!exerciseActive) return; 
 
-    // Timer should have been stopped by updateTimerDisplay or will be stopped by endExercise
+    
     endExercise("Time's up!", false);
 }
 
 void MainWindow::endExercise(const QString& reasonMessage, bool awardedPoints) {
-    if (!exerciseActive) return; // Prevent multiple ends
+    if (!exerciseActive) return; 
 
     exerciseActive = false;
-    if (exerciseTimer->isActive()) { // Ensure timer is stopped
+    if (exerciseTimer->isActive()) { 
         exerciseTimer->stop();
     }
 
@@ -338,7 +330,7 @@ void MainWindow::endExercise(const QString& reasonMessage, bool awardedPoints) {
     }
 
     QMessageBox::information(this, "Exercise Over", finalMessage);
-    resetToSetupScreen(); // This will also update UI, including timer display for setup screen
+    resetToSetupScreen(); 
 }
 
 
@@ -354,11 +346,11 @@ void MainWindow::resetToSetupScreen() {
     mistakesMade = 0;
     tasksCompletedInSet = 0;
     currentTaskIndex = -1;
-    m_elapsedSecondsInExercise = 0; // Reset elapsed time
+    m_elapsedSecondsInExercise = 0; 
 
-    // Reset UI elements for status bar
+    
     taskProgressBar->setValue(0);
-    updateStatusDisplay(); // This will update score, mistakes, progress, and timerLabel for idle state
+    updateStatusDisplay(); 
 
     stackedWidget->setCurrentWidget(setupWidget);
 }
@@ -373,7 +365,7 @@ void MainWindow::updateStatusDisplay() {
     } else {
         taskProgressBar->setValue(0);
         taskProgressBar->setFormat("0 / 0 Tasks");
-        // This part handles the timer display when not in an active exercise (e.g., on setup screen)
+        
         int initialMinutes = T_timeLimitSeconds / 60;
         int initialSeconds = T_timeLimitSeconds % 60;
         timerLabel->setText(QString("Time: %1:%2")

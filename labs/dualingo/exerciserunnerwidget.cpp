@@ -1,5 +1,5 @@
 #include "exerciserunnerwidget.h"
-#include <QTimer> // For feedback label timeout
+#include <QTimer> 
 
 ExerciseRunnerWidget::ExerciseRunnerWidget(QWidget *parent) : QWidget(parent), currentType(ExerciseType::None)
 {
@@ -17,14 +17,14 @@ ExerciseRunnerWidget::ExerciseRunnerWidget(QWidget *parent) : QWidget(parent), c
     feedbackFont.setPointSize(12);
     feedbackFont.setBold(true);
     feedbackLabel->setFont(feedbackFont);
-    feedbackLabel->setFixedHeight(30); // Reserve space
+    feedbackLabel->setFixedHeight(30); 
 
-    // Translation input
+    
     translationEdit = new QLineEdit(this);
     translationEdit->setFont(promptFont);
     translationEdit->setVisible(false);
 
-    // Grammar input
+    
     grammarGroup = new QGroupBox("Choose the correct option:", this);
     radioLayout = new QVBoxLayout(grammarGroup);
     grammarGroup->setLayout(radioLayout);
@@ -38,10 +38,10 @@ ExerciseRunnerWidget::ExerciseRunnerWidget(QWidget *parent) : QWidget(parent), c
     submitFont.setPointSize(12);
     submitButton->setFont(submitFont);
 
-    mainLayout->addWidget(promptLabel, 1); // Give prompt more space
+    mainLayout->addWidget(promptLabel, 1); 
     mainLayout->addWidget(feedbackLabel);
     mainLayout->addWidget(translationEdit);
-    mainLayout->addWidget(grammarGroup, 1); // Give options more space
+    mainLayout->addWidget(grammarGroup, 1); 
     mainLayout->addStretch(1);
     mainLayout->addWidget(submitButton);
 
@@ -62,7 +62,7 @@ void ExerciseRunnerWidget::clearRadioButtons() {
 void ExerciseRunnerWidget::setupForTask(const TaskData& task) {
     currentType = task.type;
     promptLabel->setText(task.prompt);
-    feedbackLabel->setText(""); // Clear previous feedback
+    feedbackLabel->setText(""); 
     clearInputs();
 
     if (task.type == ExerciseType::Translation) {
@@ -72,7 +72,7 @@ void ExerciseRunnerWidget::setupForTask(const TaskData& task) {
     } else if (task.type == ExerciseType::Grammar) {
         translationEdit->setVisible(false);
         grammarGroup->setVisible(true);
-        clearRadioButtons(); // Clear previous radio buttons
+        clearRadioButtons(); 
 
         for (int i = 0; i < task.options.size(); ++i) {
             QRadioButton *rb = new QRadioButton(task.options[i], grammarGroup);
@@ -81,7 +81,7 @@ void ExerciseRunnerWidget::setupForTask(const TaskData& task) {
             rb->setFont(radioFont);
             radioLayout->addWidget(rb);
             radioButtons.append(rb);
-            grammarButtonGroup->addButton(rb, i); // Use index as ID
+            grammarButtonGroup->addButton(rb, i); 
         }
         if (!radioButtons.isEmpty()) radioButtons.first()->setFocus();
     }
@@ -92,13 +92,13 @@ QString ExerciseRunnerWidget::getTranslationAnswer() const {
 }
 
 int ExerciseRunnerWidget::getGrammarAnswerIndex() const {
-    return grammarButtonGroup->checkedId(); // Returns -1 if none checked
+    return grammarButtonGroup->checkedId(); 
 }
 
 void ExerciseRunnerWidget::clearInputs() {
     translationEdit->clear();
-    if(grammarButtonGroup->checkedButton()) { // Uncheck radio button
-        grammarButtonGroup->setExclusive(false); // Allow unchecking
+    if(grammarButtonGroup->checkedButton()) { 
+        grammarButtonGroup->setExclusive(false); 
         grammarButtonGroup->checkedButton()->setChecked(false);
         grammarButtonGroup->setExclusive(true);
     }
@@ -111,7 +111,7 @@ void ExerciseRunnerWidget::showFeedback(const QString& message, bool isCorrect) 
     } else {
         feedbackLabel->setStyleSheet("QLabel { color : red; }");
     }
-    // Optional: Clear feedback after a few seconds
-    // Corrected line:
+    
+    
     QTimer::singleShot(2000, this, [this, message](){ if(feedbackLabel->text() == message) feedbackLabel->setText(""); });
 }

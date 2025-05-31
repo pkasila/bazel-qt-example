@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QButtonGroup>
-#include "taskdata.h" // For ExerciseType
+#include "taskdata.h" 
 
 class ExerciseRunnerWidget : public QWidget
 {
@@ -21,9 +21,9 @@ public:
 
     void setupForTask(const TaskData& task);
     QString getTranslationAnswer() const;
-    int getGrammarAnswerIndex() const; // Returns selected radio button ID or -1
+    int getGrammarAnswerIndex() const; 
     void clearInputs();
-    void showFeedback(const QString& message, bool isCorrect); // Shows temporary feedback
+    void showFeedback(const QString& message, bool isCorrect); 
 
 signals:
     void submitClicked();
@@ -31,14 +31,12 @@ signals:
 private:
     QVBoxLayout *mainLayout;
     QLabel *promptLabel;
-    QLabel *feedbackLabel; // For "Correct!" / "Incorrect!"
-
-    // Translation specific
+    QLabel *feedbackLabel; 
+    
     QLineEdit *translationEdit;
-
-    // Grammar specific
+    
     QGroupBox *grammarGroup;
-    QVBoxLayout *radioLayout; // Inside grammarGroup
+    QVBoxLayout *radioLayout; 
     QList<QRadioButton*> radioButtons;
     QButtonGroup *grammarButtonGroup;
 
@@ -49,4 +47,4 @@ private:
     void clearRadioButtons();
 };
 
-#endif // EXERCISERUNNERWIDGET_H
+#endif 

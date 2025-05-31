@@ -20,7 +20,7 @@ DifficultyDialog::DifficultyDialog(const QString& currentDifficulty, QWidget *pa
     if (currentDifficulty == "Easy") easyButton->setChecked(true);
     else if (currentDifficulty == "Medium") mediumButton->setChecked(true);
     else if (currentDifficulty == "Hard") hardButton->setChecked(true);
-    else mediumButton->setChecked(true); // Default
+    else mediumButton->setChecked(true);
 
     okButton = new QPushButton("OK", this);
     cancelButton = new QPushButton("Cancel", this);
@@ -44,5 +44,5 @@ QString DifficultyDialog::selectedDifficulty() const {
     if (easyButton->isChecked()) return "Easy";
     if (mediumButton->isChecked()) return "Medium";
     if (hardButton->isChecked()) return "Hard";
-    return "Medium"; // Should not happen if one is checked
+    return "Medium";
 }

@@ -4,31 +4,26 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
-#include <QRandomGenerator> // For shuffling
-#include <algorithm>    // For std::shuffle
+#include <QRandomGenerator> 
+#include <algorithm>    
 #include <QMap>
 #include <QDebug>
 
 enum class ExerciseType {
     None,
-    Translation, // Covers vocabulary, sentence completion, synonyms, antonyms
+    Translation, 
     Grammar
 };
 
 struct TaskData {
     ExerciseType type;
     QString prompt;
-    QString answer; // For translation/vocabulary
-    QStringList options; // For grammar
-    int correctAnswerIndex; // For grammar (index in options)
+    QString answer; 
+    QStringList options; 
+    int correctAnswerIndex; 
     QString hint;
-    QString originalDifficulty; // To track where it came from
+    QString originalDifficulty; 
 };
-
-// --- Hardcoded Question Data ---
-// taskdata.h
-// ... (keep the existing includes, enum, struct TaskData, categorizedTasksCache, ensureTasksCategorized, and getSampleTasks functions)
-// REPLACE the old getAllHardcodedTasks() function with this one:
 
 inline QList<TaskData> getAllHardcodedTasks() {
     QList<TaskData> allTasks;
@@ -239,10 +234,8 @@ inline QList<TaskData> getAllHardcodedTasks() {
     return allTasks;
 }
 
-// Global cache for tasks
 static QMap<QString, QMap<ExerciseType, QList<TaskData>>> categorizedTasksCache;
 
-// Function to ensure tasks are loaded and categorized
 inline void ensureTasksCategorized() {
     if (categorizedTasksCache.isEmpty()) {
         qInfo() << "Categorizing all hardcoded tasks into cache...";
@@ -251,7 +244,6 @@ inline void ensureTasksCategorized() {
             categorizedTasksCache[task.originalDifficulty][task.type].append(task);
         }
 
-        // Log counts
         for (auto diff_it = categorizedTasksCache.constBegin(); diff_it != categorizedTasksCache.constEnd(); ++diff_it) {
             for (auto type_it = diff_it.value().constBegin(); type_it != diff_it.value().constEnd(); ++type_it) {
                 qInfo() << "Cached:" << diff_it.key() << (type_it.key() == ExerciseType::Grammar ? "Grammar" : "Translation/Vocab")
@@ -261,9 +253,8 @@ inline void ensureTasksCategorized() {
     }
 }
 
-// Modified getSampleTasks function
 inline QList<TaskData> getSampleTasks(ExerciseType type, const QString& difficulty, int N_tasksToSelect) {
-    ensureTasksCategorized(); // Make sure tasks are in cache and categorized
+    ensureTasksCategorized();
 
     QList<TaskData> availableTasks;
 
@@ -273,13 +264,11 @@ inline QList<TaskData> getSampleTasks(ExerciseType type, const QString& difficul
     } else {
         qWarning() << "No tasks found in cache for difficulty:" << difficulty
                    << "and type:" << (type == ExerciseType::Grammar ? "Grammar" : "Translation/Vocab");
-        // Fallback: try to get from "Medium" if specific difficulty is missing.
-        // Or even combine all tasks of that type if desperate. For now, strict.
         if (difficulty != "Medium" && categorizedTasksCache.contains("Medium") && categorizedTasksCache["Medium"].contains(type)) {
             qInfo() << "Falling back to Medium difficulty for task selection.";
             availableTasks = categorizedTasksCache["Medium"][type];
         } else {
-            return {}; // Return empty list
+            return {};
         }
     }
 
@@ -289,10 +278,8 @@ inline QList<TaskData> getSampleTasks(ExerciseType type, const QString& difficul
         return {};
     }
 
-    // Shuffle the available tasks
     std::shuffle(availableTasks.begin(), availableTasks.end(), *QRandomGenerator::global());
 
-    // Select N tasks
     QList<TaskData> selectedTasks;
     for (int i = 0; i < qMin(N_tasksToSelect, availableTasks.size()); ++i) {
         selectedTasks.append(availableTasks[i]);
@@ -308,4 +295,4 @@ inline QList<TaskData> getSampleTasks(ExerciseType type, const QString& difficul
 }
 
 
-#endif // TASKDATA_H
+#endif

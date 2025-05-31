@@ -27,4 +27,4 @@ private:
     QString m_selectedDifficulty;
 };
 
-#endif // DIFFICULTYDIALOG_H
+#endif

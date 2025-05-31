@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QMenuBar>
 #include <QAction>
-#include <QKeyEvent> // For H key
+#include <QKeyEvent> 
 
 #include "taskdata.h"
 #include "exercisesetupwidget.h"
@@ -40,7 +40,6 @@ private slots:
 
     void advanceToNextTaskOrEnd();
 
-
 private:
     void createMenus();
     void createStatusBar();
@@ -53,9 +52,7 @@ private:
     void endExercise(const QString& reasonMessage, bool awardedPoints);
     void resetToSetupScreen();
     void updateStatusDisplay();
-
-
-    // UI Elements
+    
     QStackedWidget *stackedWidget;
     ExerciseSetupWidget *setupWidget;
     ExerciseRunnerWidget *runnerWidget;
@@ -64,24 +61,21 @@ private:
     QLabel *scoreLabel;
     QLabel *timerLabel;
     QLabel *mistakesLabel;
-    QLabel *difficultyLabel; // Display current difficulty
+    QLabel *difficultyLabel; 
 
-    // Actions
     QAction *difficultyAction;
     QAction *exitAction;
-
-    // Exercise Logic
+    
     QTimer *exerciseTimer;
     int currentScore;
     int mistakesMade;
-    int tasksCompletedInSet; // How many tasks answered in current set
-    int currentTaskIndex;   // Index in currentTasks list
+    int tasksCompletedInSet; 
+    int currentTaskIndex;   
 
     QString currentDifficulty;
     ExerciseType currentExerciseType;
     QList<TaskData> currentTasks;
 
-    // Config based on difficulty
     int N_tasksPerSet;
     int M_maxMistakes;
     int T_timeLimitSeconds;
@@ -91,4 +85,4 @@ private:
     bool exerciseActive = false;
 };
 
-#endif // MAINWINDOW_H
+#endif 
