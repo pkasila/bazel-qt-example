@@ -1,0 +1,97 @@
+###############################################################################
+# Bazel now uses Bzlmod by default to manage external dependencies.
+# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
+###############################################################################
+
+# Основные правила упаковки
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+
+bazel_dep(name = "rules_python", version = "1.7.0")
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    ignore_root_user_error = True,
+    python_version = "3.11",
+)
+
+# Системные и базовые зависимости (версии обновлены согласно логам Bazel 9)
+bazel_dep(name = "rules_go", version = "0.50.1")
+bazel_dep(name = "rules_cc", version = "0.2.17")
+bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "rules_foreign_cc", version = "0.13.0")
+
+# C++ библиотеки
+bazel_dep(name = "fmt", version = "11.0.2")
+bazel_dep(name = "spdlog", version = "1.14.1")
+bazel_dep(name = "magic_enum", version = "0.9.6")
+
+# Тестовые фреймворки и бенчмарки
+bazel_dep(name = "catch2", version = "3.7.1")
+bazel_dep(name = "googletest", version = "1.17.0")
+bazel_dep(name = "google_benchmark", version = "1.8.5")
+
+# Инструменты разработки (Linter, Compile Commands)
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    commit = "4f28899228fb3ad0126897876f147ca15026151e",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+)
+
+bazel_dep(name = "buildozer", version = "8.2.1")
+bazel_dep(name = "buildifier_prebuilt", version = "7.3.1")
+bazel_dep(name = "depend_on_what_you_use", version = "0.5.0")
+
+# Графика
+bazel_dep(name = "libpng", version = "1.6.43")
+
+# Linters (Clang-Tidy / Clang-Format)
+bazel_dep(name = "bazel_clang_tidy", dev_dependency = True)
+git_override(
+    module_name = "bazel_clang_tidy",
+    commit = "c4c4b9ce5693b26ec6b8e7b0af3db59a3092d540",
+    remote = "https://github.com/erenon/bazel_clang_tidy.git",
+)
+
+bazel_dep(name = "bazel_clang_format", dev_dependency = True)
+git_override(
+    module_name = "bazel_clang_format",
+    remote = "https://github.com/oliverlee/bazel_clang_format.git",
+    commit = "1fd2a042798ede8d6f5498ea92287bc1204260fa",
+)
+
+
+# --- Блок QT ---
+bazel_dep(name = "rules_qt")
+git_override(
+    module_name = "rules_qt",
+    remote = "https://github.com/Vertexwahn/rules_qt6.git",
+    commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
+)
+
+# Подключаем инструмент для локальных репозиториев
+local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
+
+# Указываем путь к твоему Qt. Файл BUILD.bazel он возьмет тот, что мы только что скопировали!
+local_repository(
+    name = "my_local_qt_linux",
+    path = "/home/technocat/Qt/6.10.2/gcc_64",
+)
+
+qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
+qt.fetch() 
+
+use_repo(
+    qt,
+    "qt_linux_x86_64",
+    "qt_mac_aarch64",
+    "qt_windows_x86_64",
+)
+
+# ЗАМЕНЯЕМ скачивание на твою локальную папку
+override_repo(qt, qt_linux_x86_64 = "my_local_qt_linux")
+
+register_toolchains(
+    "@rules_qt//tools:all",
+    dev_dependency = True,
+)
