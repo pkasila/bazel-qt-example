@@ -1,0 +1,51 @@
+/* Основные стили приложения */
+QMainWindow {
+    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Стили для кнопок */
+QPushButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    min-width: 80px;
+}
+
+QPushButton:hover {
+    background-color: #45a049;
+}
+
+QPushButton:pressed {
+    background-color: #3d8b40;
+}
+
+/* Стили для радио-кнопок в DifficultyDialog */
+QRadioButton {
+    spacing: 5px;
+    padding: 5px;
+}
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+}
+
+/* Стили для QLabel */
+QLabel {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Стили для QProgressBar */
+QProgressBar {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: #4CAF50;
+}
