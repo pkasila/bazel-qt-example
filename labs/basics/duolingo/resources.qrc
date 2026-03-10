@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource>
+        <file>sounds/success.wav</file>
+        <file>sounds/failed.wav</file>
+    </qresource>
+</RCC>
