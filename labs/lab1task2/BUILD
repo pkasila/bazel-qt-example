@@ -3,7 +3,7 @@ load("@rules_qt//:qt.bzl", "qt_cc_library", "qt_cc_binary")
 qt_cc_library(
     name = "main_window",
     srcs = [
-        "mainwindow.cpp"
+        "mainwindow.cpp",
     ],
     hdrs = [
         "mainwindow.h",
