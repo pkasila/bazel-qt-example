@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="/cats/task1">
+    <file alias="cat1.jpg">assets/cat1.jpg</file>
+    <file alias="cat2.jpg">assets/cat2.jpg</file>
+    <file alias="cat3.jpg">assets/cat3.jpg</file>
+    <file alias="cat4.jpg">assets/cat4.jpg</file>
+    <file alias="cat5.png">assets/cat5.png</file>
+    <file alias="cat6.jpg">assets/cat6.jpg</file>
+  </qresource>
+</RCC>

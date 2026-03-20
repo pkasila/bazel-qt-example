@@ -202,3 +202,7 @@ build:vs2022 --host_copt=-DNOGDI
 build:macos --cxxopt='-std=c++2a'
 build:macos --cxxopt='-mmacosx-version-min=10.15'
 build:macos --cxxopt=-Wall
+
+# Qt6 needs newer macOS deployment target
+build --macos_minimum_os=11.0
+build --host_macos_minimum_os=11.0

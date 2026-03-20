@@ -5,7 +5,6 @@
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
 bazel_dep(name = "rules_pkg", version = "1.0.1")
-
 ###############################################################################
 # Bazel now uses Bzlmod by default to manage external dependencies.
 # Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
@@ -13,13 +12,11 @@ bazel_dep(name = "rules_pkg", version = "1.0.1")
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
 bazel_dep(name = "rules_python", version = "0.40.0")
-
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(
     ignore_root_user_error = True,
     python_version = "3.11",
 )
-
 bazel_dep(name = "rules_go", version = "0.50.1")
 bazel_dep(name = "rules_cc", version = "0.0.10")
 bazel_dep(name = "platforms", version = "0.0.10")
@@ -105,19 +102,20 @@ git_override(
 bazel_dep(name = "bazel_clang_format", dev_dependency = True)
 git_override(
     module_name = "bazel_clang_format",
-    commit = "1fd2a042798ede8d6f5498ea92287bc1204260fa",
     remote = "https://github.com/oliverlee/bazel_clang_format.git",
+    commit = "1fd2a042798ede8d6f5498ea92287bc1204260fa",
 )
 
 bazel_dep(name = "rules_qt")
 git_override(
     module_name = "rules_qt",
-    commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
     remote = "https://github.com/Vertexwahn/rules_qt6.git",
+    commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
 )
 
-qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
-qt.install()
+qt = use_extension("@rules_qt//:extensions.bzl", "qt")
+qt.fetch()
+
 use_repo(
     qt,
     "qt_linux_x86_64",
