@@ -1,0 +1,5 @@
+First Newton's law||2||An object at rest remains at rest, or if in motion, remains in motion at a constant velocity unless acted on by a net external force.
+Second Newton's law||1||Newton's second law: F = ma. Newton's second law is a quantitative description of the changes that a force can produce on the motion of a body.
+Third Newton's law||2||His third law states that for every action (force) in nature there is an equal and opposite reaction.
+L'Hôpital's rule||1||L'Hôpital's rule (/ˌloʊpiːˈtɑːl/, loh-pee-TAHL) or L'Hospital's rule, also known as Bernoulli's rule, is a mathematical theorem that allows evaluating limits of indeterminate forms using derivatives. Application (or repeated application) of the rule often converts an indeterminate form to an expression that can be easily evaluated by substitution. The rule is named after the 17th-century French mathematician Guillaume De l'Hôpital. Although the rule is often attributed to De l'Hôpital, the theorem was first introduced to him in 1694 by the Swiss mathematician Johann Bernoulli.
+Ticket №5||0||
