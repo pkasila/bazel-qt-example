@@ -1,0 +1,36 @@
+void MainWindow::handleBackspace() {
+    if (currentPosition <= 0) return; // No characters to delete
+
+    // Move back one position
+    currentPosition--;
+
+    // Update statistics
+    totalTyped++;
+    correctTyped--; // Decrement correct count since we're undoing
+
+    // Update the text display
+    QString displayText;
+    for (int i = 0; i < trainingText.length(); ++i) {
+        QString color;
+        if (i < currentPosition) {
+            color = "green"; // Already typed characters
+        } else if (i == currentPosition) {
+            color = "blue"; // Current character to type
+        } else {
+            color = "gray"; // Future characters
+        }
+
+        // Replace spaces with a visible placeholder
+        QString character = trainingText[i];
+        if (character == " ") {
+            character = "·"; // Use a middle dot or underscore (_) for spaces
+        }
+
+        displayText += QString("<span style='color: %1'>%2</span>")
+                       .arg(color)
+                       .arg(character);
+    }
+
+    textDisplay->setText(displayText);
+
+    // Highlight the current key on
