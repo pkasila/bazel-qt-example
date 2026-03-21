@@ -1,0 +1,7 @@
+<RCC>
+    <qresource>
+        <file alias="back.mp3">TralaleroTralala.mp3</file>
+        <file>pass.mp3</file>
+        <file>fail.mp3</file>
+    </qresource>
+</RCC>
