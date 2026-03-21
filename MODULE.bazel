@@ -5,8 +5,8 @@
 
 # Основные правила упаковки
 bazel_dep(name = "rules_pkg", version = "1.0.1")
-
 bazel_dep(name = "rules_python", version = "1.7.0")
+
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(
     ignore_root_user_error = True,
@@ -14,7 +14,7 @@ python.toolchain(
 )
 
 # Системные и базовые зависимости (версии обновлены согласно логам Bazel 9)
-bazel_dep(name = "rules_go", version = "0.50.1")
+bazel_dep(name = "rules_go", version = "0.60.0")
 bazel_dep(name = "rules_cc", version = "0.2.17")
 bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
@@ -56,16 +56,16 @@ git_override(
 bazel_dep(name = "bazel_clang_format", dev_dependency = True)
 git_override(
     module_name = "bazel_clang_format",
-    remote = "https://github.com/oliverlee/bazel_clang_format.git",
     commit = "1fd2a042798ede8d6f5498ea92287bc1204260fa",
+    remote = "https://github.com/oliverlee/bazel_clang_format.git",
 )
 
 # --- Блок QT (ИСПРАВЛЕННЫЙ) ---
 bazel_dep(name = "rules_qt")
 git_override(
     module_name = "rules_qt",
-    remote = "https://github.com/Vertexwahn/rules_qt6.git",
     commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
+    remote = "https://github.com/Vertexwahn/rules_qt6.git",
 )
 
 qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
