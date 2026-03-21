@@ -1,0 +1,8 @@
+build --cxxopt=-std=c++17
+build --cxxopt=-fPIC
+build --linkopt=-L/usr/lib/x86_64-linux-gnu
+build --linkopt=-lQt5Core
+build --linkopt=-lQt5Gui
+build --linkopt=-lQt5Widgets
+build --linkopt=-lpthread
+build:linux --linkopt=-Wl,-rpath,/usr/lib/x86_64-linux-gnu
