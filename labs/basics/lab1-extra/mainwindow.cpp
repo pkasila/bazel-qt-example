@@ -96,5 +96,5 @@ void MainWindow::onCalculate() {
     QString category = categoryEdit->text();
     QString hero = outcomesList->item(index)->text();
 
-    resultLabel->setText(QString("Ты " + hero + "!!!"));
+    resultLabel->setText(QString("Ты " + hero + "!!"));
 }
