@@ -1,0 +1,54 @@
+cc_library(
+    name = "pantry_keeper_lib",
+    srcs = [
+        "main_window.cpp",
+        "click_label.cpp",
+    ],
+    hdrs = [
+        "main_window.h",
+        "click_label.h",
+        "pantry_item.h",
+    ],
+    copts = [
+        "-std=c++17",
+        "-fPIC",
+        "-I/usr/include/x86_64-linux-gnu/qt5",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtCore",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtGui",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+    ],
+    linkopts = [
+        "-lQt5Widgets",
+        "-lQt5Gui",
+        "-lQt5Core",
+        "-lGL",
+        "-lpthread",
+        "-ldl",
+        "-lX11",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+cc_binary(
+    name = "pantry_keeper",
+    srcs = ["main.cpp"],
+    deps = [":pantry_keeper_lib"],
+    copts = [
+        "-std=c++17",
+        "-fPIC",
+        "-I/usr/include/x86_64-linux-gnu/qt5",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtCore",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtGui",
+        "-I/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+    ],
+    linkopts = [
+        "-lQt5Widgets",
+        "-lQt5Gui",
+        "-lQt5Core",
+        "-lGL",
+        "-lpthread",
+        "-ldl",
+        "-lX11",
+    ],
+    visibility = ["//visibility:public"],
+)

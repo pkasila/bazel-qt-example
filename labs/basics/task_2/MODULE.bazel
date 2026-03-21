@@ -1,0 +1,1 @@
+module(name = "pantry_keeper", version = "1.0")
