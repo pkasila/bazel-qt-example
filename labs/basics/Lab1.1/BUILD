@@ -1,4 +1,4 @@
-load("@rules_qt6//:qt.bzl", "qt_cc_binary")
+load("@rules_qt//:qt.bzl", "qt_cc_binary")
 
 qt_cc_binary(
     name = "exam_app",
@@ -8,8 +8,8 @@ qt_cc_binary(
         "exam_app.h",
     ],
     deps = [
-        "@rules_qt6//:qt_widgets",
-        "@rules_qt6//:qt_core",
-        "@rules_qt6//:qt_gui",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
     ],
 )
