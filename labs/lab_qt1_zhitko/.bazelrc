@@ -1,0 +1,6 @@
+# ~/lab_qt1_zhitko/.bazelrc
+
+# Отключаем песочницу для разработки с системным Qt
+build:dev --strategy=CppCompile=standalone
+build:dev --strategy=CppLink=standalone
+build:dev --strategy=Genrule=standalone
