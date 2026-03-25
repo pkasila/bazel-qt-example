@@ -1,4 +1,1 @@
-# BSU Qt Project...
-
-* `app`
-* `core`
+# Task 1

@@ -60,7 +60,8 @@ git_override(
     commit = "1fd2a042798ede8d6f5498ea92287bc1204260fa",
 )
 
-# --- Блок QT (ИСПРАВЛЕННЫЙ) ---
+
+# --- Блок QT ---
 bazel_dep(name = "rules_qt")
 git_override(
     module_name = "rules_qt",
@@ -68,8 +69,17 @@ git_override(
     commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
 )
 
+# Подключаем инструмент для локальных репозиториев
+local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
+
+# Указываем путь к твоему Qt. Файл BUILD.bazel он возьмет тот, что мы только что скопировали!
+local_repository(
+    name = "my_local_qt_linux",
+    path = "/home/technocat/Qt/6.10.2/gcc_64",
+)
+
 qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
-# qt.fetch()
+qt.fetch() 
 
 use_repo(
     qt,
@@ -77,6 +87,9 @@ use_repo(
     "qt_mac_aarch64",
     "qt_windows_x86_64",
 )
+
+# ЗАМЕНЯЕМ скачивание на твою локальную папку
+override_repo(qt, qt_linux_x86_64 = "my_local_qt_linux")
 
 register_toolchains(
     "@rules_qt//tools:all",
