@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>res/icons/delete.svg</file>
+        <file>res/icons/add_box.svg</file>
+        <file>res/icons/settings.svg</file>
+        <file>res/icons/hide.svg</file>
+        <file>res/icons/close.svg</file>
+        <file>res/icons/back.svg</file>
+        <file>res/sounds/rain.ogg</file>
+        <file>res/sounds/storm.ogg</file>
+        <file>res/sounds/wind.ogg</file>
+        <file>res/sounds/waves.ogg</file>
+        <file>res/sounds/stream.ogg</file>
+        <file>res/sounds/birds.ogg</file>
+        <file>res/sounds/summer-night.ogg</file>
+        <file>res/sounds/train.ogg</file>
+        <file>res/sounds/boat.ogg</file>
+        <file>res/sounds/city.ogg</file>
+        <file>res/sounds/coffee-shop.ogg</file>
+        <file>res/sounds/fireplace.ogg</file>
+        <file>res/sounds/pink-noise.ogg</file>
+        <file>res/sounds/white-noise.ogg</file>
+    </qresource>
+</RCC>
