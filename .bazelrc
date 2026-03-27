@@ -202,3 +202,4 @@ build:vs2022 --host_copt=-DNOGDI
 build:macos --cxxopt='-std=c++2a'
 build:macos --cxxopt='-mmacosx-version-min=10.15'
 build:macos --cxxopt=-Wall
+build --cpu=darwin_arm64
