@@ -1,0 +1,5 @@
+#include "MyWindow.h"
+#include "Dialog.h"
+#include "DrawingTable.h"
+#include "PictureView.h"
+#include "GoodDelegate.h"
