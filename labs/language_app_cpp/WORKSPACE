@@ -1,0 +1,27 @@
+# WORKSPACE
+
+workspace(name = "language_app_cpp")
+
+# Load rules_qt from GitHub
+load("@bazel_tools//fetch:http.bzl", "http_archive")
+
+http_archive(
+    name = "rules_qt",
+    urls = ["https://github.com/bazelbuild/rules_qt/releases/download/v1.2.0/rules_qt.v1.2.0.tar.gz"],
+    sha256 = "80e95e892d8514433a246a98e8291448724b936f581984d161866ff909c7353c",
+    strip_prefix = "rules_qt-v1.2.0",
+)
+
+load("@rules_qt//qt:configure.bzl", "qt_configure")
+
+# Configure Qt. Replace "/path/to/your/Qt/6.x.x/gcc_64" with your actual Qt install path.
+# On Windows, this might be "C:/Qt/6.x.x/msvc2019_64" or similar.
+# On macOS, it might be "~/Qt/6.x.x/macos".
+# You might need to adjust the path based on your installation.
+qt_configure(name = "qt", qt_path = "/path/to/your/Qt/6.x.x/gcc_64")
+
+# Ensure you have a C++ toolchain configured.
+# If you are on Linux/macOS and have a standard compiler (g++/clang)
+# and haven't explicitly configured toolchains, Bazel often uses the
+# system one by default. If you have issues, you might need to add
+# specific toolchain configuration here or in a .bazelrc file.
