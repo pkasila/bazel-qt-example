@@ -1,0 +1,95 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library", "qt_resource_via_qrc")
+load(":.bzl", "qt1_cc_binary", "qt1_cc_library")
+
+qt_resource_via_qrc(
+    name = "resources",
+    files = [
+        "105233040_p0.png"
+    ],
+    qrc_file = ".qrc"
+)
+
+qt_cc_library(
+    name = "main_window",
+    srcs = [
+        "Controller.cpp",
+        "LightSource.cpp",
+        "MainWindow.cpp",
+        "Polygon.cpp",
+        "Ray.cpp",
+        "RenderArea.cpp",
+        "Settings.cpp",
+
+    ],
+    hdrs = [
+        "Controller.h",
+        "LightSource.h",
+        "MainWindow.h",
+        "Polygon.h",
+        "Ray.h",
+        "RenderArea.h",
+        "Settings.h"
+    ],
+    deps = [
+        ":resources",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets"
+    ],
+)
+
+qt1_cc_library(
+    name = "main_window_opengl",
+    copts = ["-DUSE_OPENGL"],
+    srcs = [
+        "Controller.cpp",
+        "LightSource.cpp",
+        "MainWindow.cpp",
+        "Polygon.cpp",
+        "Ray.cpp",
+        "RenderArea.cpp",
+        "Settings.cpp",
+
+    ],
+    hdrs = [
+        "Controller.h",
+        "LightSource.h",
+        "MainWindow.h",
+        "Polygon.h",
+        "Ray.h",
+        "RenderArea.h",
+        "Settings.h"
+    ],
+    deps = [
+        ":resources",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_opengl_widgets"
+    ],
+)
+
+qt_cc_binary(
+    name = "raycaster_slow",
+    srcs = ["main.cpp"],
+    deps = [
+        ":main_window",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets",
+    ]
+)
+
+
+qt1_cc_binary(
+    name = "raycaster",
+    srcs = ["main.cpp"],
+    copts = ["-DUSE_OPENGL"],
+    deps = [
+        ":main_window_opengl",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_opengl_widgets"
+    ],
+)
