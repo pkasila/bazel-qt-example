@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/humster"/>
+    <qresource prefix="/">
+        <file>../../humster/award.png</file>
+        <file>../../humster/beginner.png</file>
+        <file>../../humster/bitcoin.png</file>
+        <file>../../humster/brill.png</file>
+        <file>../../humster/coin.png</file>
+        <file>../../humster/farm.png</file>
+        <file>../../humster/intermediate.png</file>
+        <file>../../humster/memcoins.png</file>
+        <file>../../humster/pro.png</file>
+        <file>../../humster/shop.png</file>
+        <file>../../humster/ton.png</file>
+        <file>../../humster/yandexcoin.png</file>
+    </qresource>
+</RCC>
