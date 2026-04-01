@@ -1,0 +1,37 @@
+[test]
+name = "Демо"
+
+[[questions]]
+text = "Кто это?"
+image = "maxwell_cat.png"
+variants = [
+	{ text="Кот Максвелл", score=10 },
+	{ text="Кот", score=5 },
+	{ text="Енот" },
+	{ text="Что?" }
+]
+
+[[questions]]
+text = "Выберите верные утверждения"
+scores = [10, 5]
+checkboxes = [
+	{ text="correct", need=true },
+	{ text="incorrect", need=false },
+	{ text="correct", need=true },
+	{ text="incorrect", need=false },
+	{ text="incorrect", need=false }
+]
+
+[[questions]]
+text = "Просто текст без вопроса, типа пояснение"
+
+[[questions]]
+text = "Здесь ответ \"test\", посимвольное сравнение"
+answer = "test"
+score = 10
+
+[[questions]]
+text = "Найдите площадь круга диаметра 4 и выведите в виде десятичной дроби через точку. Ответ будет считаться правильным, если абсолютная или относительная погрешность не превосходит 10^-6."
+checker.path = "check_float.wasm"
+checker.userdata = "12.5663706144"
+
