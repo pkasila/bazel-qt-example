@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix = "/">
+        <file>resources/cfg.json</file>
+        <file>resources/images/mushoku-tensei.jpg</file>
+        <file>resources/images/omniscient-readers-viewpoint.jpg</file>
+        <file>resources/images/sss-class-suicide-hunter.jpg</file>
+        <file>resources/books/sss-class-suicide-hunter/titleInfo.json</file>
+        <file>resources/books/sss-class-suicide-hunter/chapters/c1.txt</file>
+        <file>resources/books/sss-class-suicide-hunter/chapters/c2.txt</file>
+        <file>resources/books/sss-class-suicide-hunter/chapters/c3.txt</file>
+        <file>resources/books/omniscient-readers-viewpoint/titleInfo.json</file>
+        <file>resources/books/omniscient-readers-viewpoint/chapters/c1.txt</file>
+        <file>resources/books/omniscient-readers-viewpoint/chapters/c2.txt</file>
+        <file>resources/books/omniscient-readers-viewpoint/chapters/c3.txt</file>
+        <file>resources/books/mushoku-tensei/titleInfo.json</file>
+        <file>resources/books/mushoku-tensei/chapters/c1.txt</file>
+        <file>resources/books/mushoku-tensei/chapters/c2.txt</file>
+        <file>resources/books/mushoku-tensei/chapters/c3.txt</file>
+    </qresource>
+</RCC>

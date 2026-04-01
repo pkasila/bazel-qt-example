@@ -1,0 +1,26 @@
+{
+  "ranobeCount": 3,
+  "ranobeInfo": [
+    {
+      "title": "sss-class-suicide-hunter"
+    },
+    {
+      "title": "omniscient-readers-viewpoint"
+    },
+    {
+      "title": "mushoku-tensei"
+    }
+  ],
+  "sss-class-suicide-hunter": {
+    "chapters": 1,
+    "ru": "Охотник-самоубийца SSS-класса"
+  },
+  "omniscient-readers-viewpoint": {
+    "chapters": 1,
+    "ru": "Всеведующий читатель"
+  },
+  "mushoku-tensei": {
+    "chapters": 1,
+    "ru": "Перерождение безработного"
+  }
+}
