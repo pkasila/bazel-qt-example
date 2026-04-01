@@ -1,0 +1,13 @@
+{
+    "cards": [
+        {
+            "age": 1000,
+            "description": "Сильные стороны: слишком долго перечислять\nСлабые стороны: Видешева",
+            "image_path": "labs/basics/Homework1_2/data/images/zahar.png",
+            "name": "ZaharZ",
+            "profession": "Программист, математик и просто гений",
+            "rarity": 5,
+            "status": "Бог"
+        }
+    ]
+}

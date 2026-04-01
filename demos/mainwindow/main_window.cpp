@@ -2,6 +2,7 @@
 
 #include "main_window.h"
 
+
 MainWindow::MainWindow()
 {
     QWidget *widget = new QWidget;
