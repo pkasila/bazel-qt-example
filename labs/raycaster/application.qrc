@@ -1,0 +1,12 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>res/icons/sidebar.svg</file>
+        <file>res/icons/drag.svg</file>
+        <file>res/icons/polyline.svg</file>
+        <file>res/icons/light.svg</file>
+        <file>res/icons/delete.svg</file>
+        <file>res/icons/close.svg</file>
+        <file>res/icons/hide.svg</file>
+    </qresource>
+</RCC>
