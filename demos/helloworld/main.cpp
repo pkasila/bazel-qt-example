@@ -8,3 +8,4 @@ int main(int argc, char** argv) {
     button.show();
     return QApplication::exec();
 }
+// /usr/include/x86_64-linux-gnu/qt6
