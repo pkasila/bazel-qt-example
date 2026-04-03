@@ -1,0 +1,20 @@
+workspace(name = "qt_lab1")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# Загружаем правила для сборки Qt проектов
+http_archive(
+    name = "qt_build_rules",
+    urls = ["https://github.com/bazel-contrib/qt_build_rules/releases/download/v1.2.0/qt_build_rules-v1.2.0.tar.gz"],
+    sha256 = "8f3c5863b88d30f01c829a0f78d15e8d7d5c67f6c8c8c8c8c8c8c8c8c8c8c8c8", # Замените на актуальный hash при скачивании
+)
+
+load("@qt_build_rules//:repositories.bzl", "qt_build_rules_dependencies")
+qt_build_rules_dependencies()
+
+load("@qt_build_rules//:defs.bzl", "qt_configure")
+qt_configure(
+    name = "qt",
+    # Путь к qmake. Bazel попробует найти его сам, но можно указать явно:
+    # qmake_path = "/usr/lib/qt5/bin/qmake", 
+)
