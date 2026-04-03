@@ -1,0 +1,47 @@
+# labs/raycaster/BUILD.bazel
+package(default_visibility = ["//visibility:public"])
+
+# Генерируем MOC файлы для классов с Q_OBJECT
+genrule(
+    name = "raycaster_moc",
+    srcs = ["raycaster.h"],
+    outs = ["moc_raycaster.cpp"],
+    cmd = "/usr/lib/qt6/libexec/moc $(SRCS) -o $@",
+)
+
+# Обратите внимание: в нашей реализации нет Q_OBJECT в других хедерах,
+# но если добавите - нужно будет создать дополнительные genrule
+
+cc_binary(
+    name = "raycaster",
+    srcs = [
+        "main.cpp",
+        "raycaster.cpp",
+        "raycaster.h",
+        "ray.cpp",
+        "ray.h",
+        "polygon.cpp",
+        "polygon.h",
+        "controller.cpp",
+        "controller.h",
+        ":raycaster_moc",
+    ],
+    copts = [
+        "-std=c++17",
+        "-fPIC",
+        "-DQT_WIDGETS_LIB",
+        "-DQT_GUI_LIB",
+        "-DQT_CORE_LIB",
+        "-I/usr/include/x86_64-linux-gnu/qt6",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtWidgets",
+    ],
+    linkopts = [
+        "-L/usr/lib/x86_64-linux-gnu",
+        "-lQt6Widgets",
+        "-lQt6Gui",
+        "-lQt6Core",
+        "-lpthread",
+    ],
+)
