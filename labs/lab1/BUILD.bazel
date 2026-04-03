@@ -1,0 +1,29 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library", "qt_resource")
+
+qt_resource(
+    name = "cat_resources",
+    files = glob(["resources/*.png"]),
+)
+
+qt_cc_library(
+    name = "lab1_lib",
+    srcs = ["mainwindow.cpp", "task2widget.cpp"],
+    hdrs = ["mainwindow.h", "task2widget.h"],
+    deps = [
+        ":cat_resources",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_gui",
+    ],
+)
+
+qt_cc_binary(
+    name = "lab1",
+    srcs = ["main.cpp"],
+    deps = [
+        ":lab1_lib",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_gui",
+    ],
+)

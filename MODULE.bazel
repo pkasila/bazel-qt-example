@@ -69,7 +69,12 @@ git_override(
 )
 
 qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
-# qt.fetch()
+qt.install(
+    name = "qt_linux_x86_64",
+    build_file = "@rules_qt//extension:qt/6.8.3/linux_x86_64.BUILD",
+    os = "linux",
+    version = "6.8.3",
+)
 
 use_repo(
     qt,

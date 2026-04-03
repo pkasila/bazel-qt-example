@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <file>resources/cat_coding.png</file>
+    <file>resources/cat_crying.png</file>
+    <file>resources/cat_party.png</file>
+    <file>resources/cat_sleeping.png</file>
+    <file>resources/cat_studying.png</file>
+</qresource>
+</RCC>
