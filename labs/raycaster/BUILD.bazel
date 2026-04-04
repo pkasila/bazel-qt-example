@@ -1,0 +1,48 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "raycaster_moc",
+    srcs = ["raycaster.h"],
+    outs = ["moc_raycaster.cpp"],
+    cmd = "$(execpath @qt_mac_aarch64//:moc) $(SRCS) -o $@",
+    tools = ["@qt_mac_aarch64//:moc"],
+)
+
+cc_binary(
+    name = "raycaster",
+    srcs = [
+        "main.cpp",
+        "raycaster.cpp",
+        "raycaster.h",
+        "ray.cpp",
+        "ray.h",
+        "polygon.cpp",
+        "polygon.h",
+        "controller.cpp",
+        "controller.h",
+        ":raycaster_moc",
+    ],
+    copts = [
+        "-std=c++2b",
+        "-fPIC",
+    ],
+    deps = [
+        "@qt_mac_aarch64//:qt_widgets_mac",
+        "@qt_mac_aarch64//:qt_gui_mac",
+        "@qt_mac_aarch64//:qt_core_mac",
+    ],
+    linkopts = select({
+        "@platforms//os:macos": [
+            "-Wl,-rpath,@loader_path/../../../../../external/rules_qt++fetch+qt_mac_aarch64/lib",
+            "-Wl,-rpath,@loader_path/../../../../../../external/rules_qt++fetch+qt_mac_aarch64/lib",
+        ],
+        "//conditions:default": [],
+    }),
+    data = [
+        "@qt_mac_aarch64//:qt_widgets_mac",
+        "@qt_mac_aarch64//:qt_gui_mac",
+        "@qt_mac_aarch64//:qt_core_mac",
+    ],
+)
