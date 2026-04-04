@@ -1,0 +1,19 @@
+---
+InheritParentConfig: true
+Checks: >
+  -boost-use-ranges,
+  -clang-analyzer-security.FloatLoopCounter,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-use-default-member-init,
+  -cert-flp30-c,
+  -llvm-prefer-static-over-anonymous-namespace,
+  -misc-const-correctness,
+  -misc-include-cleaner,
+  -misc-use-anonymous-namespace,
+  -modernize-use-default-member-init,
+  -modernize-use-nodiscard,
+  -modernize-use-ranges,
+  -portability-avoid-pragma-once,
+  -readability-convert-member-functions-to-static,
+  -readability-use-anyofallof
+...
