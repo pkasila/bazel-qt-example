@@ -1,0 +1,99 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library", "qt_cc_test", "qt_resource")
+
+qt_resource(
+    name = "cat_background_assets",
+    files = ["assets/ginger_cat.jpg"],
+)
+
+qt_cc_library(
+    name = "geometry_utils",
+    srcs = ["core/geometry_utils.cpp"],
+    hdrs = ["core/geometry_utils.h"],
+    deps = [
+        "@rules_qt//:qt_core",
+    ],
+)
+
+qt_cc_library(
+    name = "ray",
+    srcs = ["core/ray.cpp"],
+    hdrs = ["core/ray.h"],
+    deps = [
+        ":geometry_utils",
+        "@rules_qt//:qt_core",
+    ],
+)
+
+qt_cc_library(
+    name = "polygon",
+    srcs = ["core/polygon.cpp"],
+    hdrs = ["core/polygon.h"],
+    deps = [
+        ":geometry_utils",
+        ":ray",
+        "@rules_qt//:qt_core",
+    ],
+)
+
+qt_cc_library(
+    name = "controller",
+    srcs = ["core/controller.cpp"],
+    hdrs = ["core/controller.h"],
+    deps = [
+        ":geometry_utils",
+        ":polygon",
+        ":ray",
+        "@rules_qt//:qt_core",
+    ],
+)
+
+qt_cc_library(
+    name = "render_widget",
+    srcs = ["ui/render_widget.cpp"],
+    hdrs = ["ui/render_widget.h"],
+    deps = [
+        ":cat_background_assets",
+        ":controller",
+        ":polygon",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets",
+    ],
+)
+
+qt_cc_library(
+    name = "main_window",
+    srcs = ["ui/main_window.cpp"],
+    hdrs = ["ui/main_window.h"],
+    deps = [
+        ":render_widget",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+    ],
+)
+
+qt_cc_binary(
+    name = "basics",
+    srcs = ["main.cpp"],
+    deps = [
+        ":main_window",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+    ],
+)
+
+alias(
+    name = "raycaster",
+    actual = ":basics",
+)
+
+qt_cc_test(
+    name = "core_test",
+    srcs = ["tests/raycaster_core_test.cpp"],
+    deps = [
+        ":controller",
+        ":geometry_utils",
+        ":polygon",
+        ":ray",
+    ],
+)
