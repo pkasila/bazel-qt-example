@@ -62,10 +62,9 @@ git_override(
 
 # --- Блок QT (ИСПРАВЛЕННЫЙ) ---
 bazel_dep(name = "rules_qt")
-git_override(
+local_path_override(
     module_name = "rules_qt",
-    remote = "https://github.com/Vertexwahn/rules_qt6.git",
-    commit = "a986944a1f0eb0aa5e5fedafdf3ac72577f5c628",
+    path = "third_party/rules_qt_local",
 )
 
 qt = use_extension("@rules_qt//extension:qt.bzl", "fetch")
