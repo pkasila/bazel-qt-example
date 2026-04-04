@@ -1,0 +1,26 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library")
+
+qt_cc_library(
+    name = "exam_reviewer_lib",
+    srcs = [
+        "exam_reviewer.cpp",
+    ],
+    hdrs = [
+        "exam_reviewer.h",
+    ],
+    deps = [
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+qt_cc_binary(
+    name = "exam_reviewer",
+    srcs = ["main.cpp"],
+    deps = [
+        ":exam_reviewer_lib",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+    ],
+)
