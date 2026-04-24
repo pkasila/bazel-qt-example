@@ -1,0 +1,62 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library")
+
+qt_cc_library(
+    name = "core",
+    srcs = [
+        "core/cat_ai_model.cpp",
+        "core/practice_engine.cpp",
+        "core/semantic_similarity_model.cpp",
+        "core/text_matcher.cpp",
+    ],
+    hdrs = [
+        "core/cat_ai_model.h",
+        "core/models.h",
+        "core/practice_engine.h",
+        "core/semantic_similarity_model.h",
+        "core/text_matcher.h",
+    ],
+    includes = ["."],
+    deps = [
+        "@rules_qt//:qt_core",
+    ],
+)
+
+qt_cc_library(
+    name = "ui",
+    srcs = [
+        "ui/difficulty_dialog.cpp",
+        "ui/exercise_pages.cpp",
+        "ui/main_window.cpp",
+    ],
+    hdrs = [
+        "ui/difficulty_dialog.h",
+        "ui/exercise_pages.h",
+        "ui/main_window.h",
+    ],
+    includes = ["."],
+    deps = [
+        ":core",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_gui",
+        "@rules_qt//:qt_widgets",
+    ],
+)
+
+qt_cc_binary(
+    name = "language_duel",
+    srcs = ["main.cpp"],
+    deps = [
+        ":ui",
+        "@rules_qt//:qt_core",
+        "@rules_qt//:qt_widgets",
+    ],
+)
+
+qt_cc_binary(
+    name = "semantic_similarity_probe",
+    srcs = ["core/semantic_similarity_model_test.cpp"],
+    deps = [
+        ":core",
+        "@rules_qt//:qt_core",
+    ],
+)
