@@ -1,0 +1,83 @@
+load("@rules_qt//:qt.bzl", "qt_cc_binary", "qt_cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+qt_cc_library(
+    name = "duolingo_lib",
+    srcs = [
+        "mainwindow.cpp",
+        "exercisecontroller.cpp",
+        "stringmatcher.cpp",
+        "audioplayer.cpp",
+        "questionrepository.cpp",
+    ],
+    hdrs = [
+        "mainwindow.h",
+        "exercisecontroller.h",
+        "stringmatcher.h",
+        "audioplayer.h",
+        "questionrepository.h",
+        "question.h",
+    ],
+    copts = [
+        "-std=c++2b",
+        "-fPIC",
+    ],
+    deps = select({
+        "@platforms//os:macos": [
+            "@qt_mac_aarch64//:qt_widgets_mac",
+            "@qt_mac_aarch64//:qt_gui_mac",
+            "@qt_mac_aarch64//:qt_core_mac",
+            "@qt_mac_aarch64//:qt_multimedia_mac",
+        ],
+        "@platforms//os:linux": [
+            "@qt_linux_x86_64//:qt_widgets_linux",
+            "@qt_linux_x86_64//:qt_gui_linux",
+            "@qt_linux_x86_64//:qt_core_linux",
+            "@qt_linux_x86_64//:qt_multimedia_linux",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+qt_cc_binary(
+    name = "duolingo",
+    srcs = [
+        "main.cpp",
+    ],
+    copts = [
+        "-std=c++2b",
+        "-fPIC",
+    ],
+    linkopts = select({
+        "@platforms//os:macos": [
+            "-Wl,-rpath,@loader_path/../../../../../external/rules_qt++fetch+qt_mac_aarch64/lib",
+            "-Wl,-rpath,@loader_path/../../../../../../external/rules_qt++fetch+qt_mac_aarch64/lib",
+        ],
+        "//conditions:default": [],
+    }),
+    deps = [
+        ":duolingo_lib",
+    ],
+    data = [
+        "correct.wav",
+        "wrong.wav",
+        "menu_bg.wav",
+        "game_bg.wav",
+        "game_bg_low.wav",
+    ] + select({
+        "@platforms//os:macos": [
+            "@qt_mac_aarch64//:qt_widgets_mac",
+            "@qt_mac_aarch64//:qt_gui_mac",
+            "@qt_mac_aarch64//:qt_core_mac",
+            "@qt_mac_aarch64//:qt_multimedia_mac",
+        ],
+        "@platforms//os:linux": [
+            "@qt_linux_x86_64//:qt_widgets_linux",
+            "@qt_linux_x86_64//:qt_gui_linux",
+            "@qt_linux_x86_64//:qt_core_linux",
+            "@qt_linux_x86_64//:qt_multimedia_linux",
+        ],
+        "//conditions:default": [],
+    }),
+)
