@@ -1,0 +1,7 @@
+# This file ensures the assets directory is tracked by git
+# Place your audio files here:
+# - correct.wav (for correct answers)
+# - wrong.wav (for wrong answers)
+# 
+# Files must be in uncompressed WAV format
+# If no files are present, the app will work without sound

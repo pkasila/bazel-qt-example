@@ -1,0 +1,47 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+# Генерация MOC (Meta-Object Compiler) файлов
+genrule(
+    name = "moc_MainWindow",
+    srcs = ["src/MainWindow.h"],
+    outs = ["moc_MainWindow.cpp"],
+    cmd = "/usr/lib/qt6/libexec/moc $< -o $@",
+)
+
+genrule(
+    name = "moc_DifficultyDialog",
+    srcs = ["src/DifficultyDialog.h"],
+    outs = ["moc_DifficultyDialog.cpp"],
+    cmd = "/usr/lib/qt6/libexec/moc $< -o $@",
+)
+
+cc_binary(
+    name = "basics",
+    srcs = glob(["src/*.cpp", "src/*.h"]) + [
+        ":moc_MainWindow",
+        ":moc_DifficultyDialog",
+    ],
+    data = glob(["assets/*.wav"]),
+    copts = [
+        "-fPIC",
+        "-std=c++17",
+        "-I.", 
+        "-Isrc",
+        "-I/usr/include/x86_64-linux-gnu/qt6", 
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtWidgets",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
+        "-I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia",
+    ],
+    linkopts = [
+        "-lQt6Core",
+        "-lQt6Gui",
+        "-lQt6Widgets",
+        "-lQt6Multimedia",
+    ],
+)
+
+alias(
+    name = "Duolingo2",
+    actual = ":basics",
+)
