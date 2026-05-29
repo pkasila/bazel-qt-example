@@ -18,11 +18,10 @@ MainWindow::MainWindow(QWidget* parent)
     });
 
     controller_.AddPolygon(border);
-
-
 }
 
 void MainWindow::paintEvent(QPaintEvent*) {
+
     QPainter painter(this);
 
     painter.fillRect(rect(), QColor(20, 20, 20));
@@ -37,6 +36,7 @@ void MainWindow::paintEvent(QPaintEvent*) {
 
     painter.setPen(Qt::NoPen);
     painter.setBrush(QColor(255, 255, 120, 180));
+
     if (light_poly.size() >= 3) {
         painter.drawPolygon(light_poly);
     }
@@ -47,6 +47,7 @@ void MainWindow::paintEvent(QPaintEvent*) {
     const auto& polygons = controller_.GetPolygons();
 
     for (size_t i = 1; i < polygons.size(); ++i) {
+
         QPolygonF poly;
 
         for (const auto& v : polygons[i].GetVertices()) {
@@ -61,6 +62,7 @@ void MainWindow::paintEvent(QPaintEvent*) {
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent* event) {
+
     controller_.SetLightSource(event->position());
 
     if (drawing_polygon_) {
@@ -71,25 +73,65 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event) {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent* event) {
+
     QPointF pos = event->position();
 
     if (event->button() == Qt::LeftButton) {
+
         if (!drawing_polygon_) {
+
             Polygon polygon;
+
             polygon.AddVertex(pos);
             polygon.AddVertex(pos);
 
             controller_.AddPolygon(polygon);
 
             drawing_polygon_ = true;
+
         } else {
+
+            controller_.UpdateLastPolygon(pos);
             controller_.AddVertexToLastPolygon(pos);
         }
     }
 
     if (event->button() == Qt::RightButton) {
-        drawing_polygon_ = false;
+
+        if (drawing_polygon_) {
+
+            controller_.FinishLastPolygon();
+
+            drawing_polygon_ = false;
+        }
     }
 
     update();
+}
+
+void MainWindow::resizeEvent(QResizeEvent*) {
+
+    auto polygons = controller_.GetPolygons();
+
+    if (!polygons.empty()) {
+
+        Controller new_controller;
+
+        Polygon border({
+            QPointF(0, 0),
+            QPointF(width(), 0),
+            QPointF(width(), height()),
+            QPointF(0, height())
+        });
+
+        new_controller.SetLightSource(controller_.GetLightSource());
+
+        new_controller.AddPolygon(border);
+
+        for (size_t i = 1; i < polygons.size(); ++i) {
+            new_controller.AddPolygon(polygons[i]);
+        }
+
+        controller_ = new_controller;
+    }
 }

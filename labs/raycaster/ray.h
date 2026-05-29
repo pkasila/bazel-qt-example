@@ -20,5 +20,6 @@ public:
 private:
     QPointF begin_;
     QPointF end_;
-    double angle_;
+
+    double angle_ = 0.0;
 };

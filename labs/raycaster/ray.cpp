@@ -2,10 +2,15 @@
 
 #include <cmath>
 
-Ray::Ray() : angle_(0.0) {}
+Ray::Ray() = default;
 
-Ray::Ray(const QPointF& begin, const QPointF& end, double angle)
-    : begin_(begin), end_(end), angle_(angle) {}
+Ray::Ray(const QPointF& begin,
+         const QPointF& end,
+         double angle)
+    : begin_(begin)
+    , end_(end)
+    , angle_(angle) {
+}
 
 const QPointF& Ray::GetBegin() const {
     return begin_;
@@ -32,6 +37,7 @@ void Ray::SetAngle(double angle) {
 }
 
 Ray Ray::Rotate(double angle) const {
+
     double dx = end_.x() - begin_.x();
     double dy = end_.y() - begin_.y();
 

@@ -5,48 +5,60 @@
 
 namespace {
 
-double DistanceSquared(const QPointF& a, const QPointF& b) {
-    double dx = a.x() - b.x();
-    double dy = a.y() - b.y();
-    return dx * dx + dy * dy;
-}
+constexpr double kEps = 0.0001;
+constexpr double kRayLength = 5000.0;
 
-}
-
-const std::vector<Polygon>& Controller::GetPolygons() const {
-    return polygons_;
 }
 
 void Controller::AddPolygon(const Polygon& polygon) {
     polygons_.push_back(polygon);
 }
 
-void Controller::AddVertexToLastPolygon(const QPointF& new_vertex) {
+void Controller::AddVertexToLastPolygon(const QPointF& vertex) {
+
     if (!polygons_.empty()) {
-        polygons_.back().AddVertex(new_vertex);
+        polygons_.back().AddVertex(vertex);
     }
 }
 
-void Controller::UpdateLastPolygon(const QPointF& new_vertex) {
+void Controller::UpdateLastPolygon(const QPointF& vertex) {
+
     if (!polygons_.empty()) {
-        polygons_.back().UpdateLastVertex(new_vertex);
+        polygons_.back().UpdateLastVertex(vertex);
     }
 }
 
-QPointF Controller::GetLightSource() const {
+void Controller::FinishLastPolygon() {
+
+    if (polygons_.empty()) {
+        return;
+    }
+
+    auto& vertices = polygons_.back().GetVertices();
+
+    if (vertices.size() >= 2) {
+        vertices.pop_back();
+    }
+}
+
+void Controller::SetLightSource(const QPointF& source) {
+    light_source_ = source;
+}
+
+const QPointF& Controller::GetLightSource() const {
     return light_source_;
 }
 
-void Controller::SetLightSource(const QPointF& point) {
-    light_source_ = point;
+const std::vector<Polygon>& Controller::GetPolygons() const {
+    return polygons_;
 }
 
 std::vector<Ray> Controller::CastRays() const {
+
     std::vector<Ray> rays;
 
-    const double ray_length = 5000.0;
-
     for (const auto& polygon : polygons_) {
+
         for (const auto& vertex : polygon.GetVertices()) {
 
             double angle = std::atan2(
@@ -55,15 +67,15 @@ std::vector<Ray> Controller::CastRays() const {
                 );
 
             QPointF end(
-                light_source_.x() + std::cos(angle) * ray_length,
-                light_source_.y() + std::sin(angle) * ray_length
+                light_source_.x() + std::cos(angle) * kRayLength,
+                light_source_.y() + std::sin(angle) * kRayLength
                 );
 
-            Ray base(light_source_, end, angle);
+            Ray ray(light_source_, end, angle);
 
-            rays.push_back(base);
-            rays.push_back(base.Rotate(0.0001));
-            rays.push_back(base.Rotate(-0.0001));
+            rays.push_back(ray.Rotate(-kEps));
+            rays.push_back(ray);
+            rays.push_back(ray.Rotate(kEps));
         }
     }
 
@@ -71,59 +83,51 @@ std::vector<Ray> Controller::CastRays() const {
 }
 
 void Controller::IntersectRays(std::vector<Ray>* rays) const {
+
     for (auto& ray : *rays) {
+
+        QPointF closest = ray.GetEnd();
+
+        double min_dist = kRayLength;
+
         for (const auto& polygon : polygons_) {
-            auto intersection = polygon.IntersectRay(ray);
 
-            if (intersection.has_value()) {
-                if (DistanceSquared(ray.GetBegin(), intersection.value()) <
-                    DistanceSquared(ray.GetBegin(), ray.GetEnd())) {
+            QPointF point = polygon.IntersectRay(ray);
 
-                    ray.SetEnd(intersection.value());
-                }
-            }
-        }
-    }
-}
+            double dx = point.x() - light_source_.x();
+            double dy = point.y() - light_source_.y();
 
-void Controller::RemoveAdjacentRays(std::vector<Ray>* rays) const {
-    const double eps = 1.0;
+            double dist = std::sqrt(dx * dx + dy * dy);
 
-    std::vector<Ray> filtered;
-
-    for (const auto& ray : *rays) {
-        bool close = false;
-
-        for (const auto& other : filtered) {
-            if (DistanceSquared(ray.GetEnd(), other.GetEnd()) < eps * eps) {
-                close = true;
-                break;
+            if (dist < min_dist) {
+                min_dist = dist;
+                closest = point;
             }
         }
 
-        if (!close) {
-            filtered.push_back(ray);
-        }
+        ray.SetEnd(closest);
     }
-
-    *rays = filtered;
 }
 
 Polygon Controller::CreateLightArea() const {
-    auto rays = CastRays();
+
+    std::vector<Ray> rays = CastRays();
 
     IntersectRays(&rays);
 
-    std::sort(rays.begin(), rays.end(),
-              [](const Ray& a, const Ray& b) {
-                  return a.GetAngle() < b.GetAngle();
-              });
+    std::sort(
+        rays.begin(),
+        rays.end(),
+        [](const Ray& a, const Ray& b) {
+            return a.GetAngle() < b.GetAngle();
+        }
+        );
 
-    std::vector<QPointF> vertices;
+    Polygon polygon;
 
     for (const auto& ray : rays) {
-        vertices.push_back(ray.GetEnd());
+        polygon.AddVertex(ray.GetEnd());
     }
 
-    return Polygon(vertices);
+    return polygon;
 }
